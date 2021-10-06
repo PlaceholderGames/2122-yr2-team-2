@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform playerCamera = null;
     [SerializeField] float mouseSensitivity = 3.5f;
     [SerializeField] float walkSpeed = 6.0f;//default 6.0
+    [SerializeField] float jumpHeight = 5.0f;
     float currentWalkSpeed = 6.0f;//current walk speed, modified by upgrades.
 
     [SerializeField] float gravity = -13f;
@@ -88,6 +89,11 @@ public class PlayerController : MonoBehaviour
         else if (walkSpeed != currentWalkSpeed)
         {
             walkSpeed = currentWalkSpeed;
+        }
+
+        if (Input.GetButtonDown("Jump") && controller.isGrounded)
+        {
+            velocityY += jumpHeight;
         }
 
 
