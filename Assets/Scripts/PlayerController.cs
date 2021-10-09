@@ -7,9 +7,10 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Transform playerCamera = null;
     [SerializeField] float mouseSensitivity = 3.5f;
-    [SerializeField] float walkSpeed = 6.0f;//default 6.0
+    [SerializeField] float movementSpeed = 6.0f;//default 6.0
     [SerializeField] float jumpHeight = 5.0f;
-    float currentWalkSpeed = 6.0f;//current walk speed, modified by upgrades.
+    [SerializeField] float currentMovementSpeed = 6.0f;//current movement speed, modified by upgrades.
+    [SerializeField] float sprintMovementBoost = 3.0f;
 
     [SerializeField] float gravity = -13f;
 
@@ -84,11 +85,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            walkSpeed = 9.0f;
+            movementSpeed += sprintMovementBoost;
         }
-        else if (walkSpeed != currentWalkSpeed)
+        else if (movementSpeed != currentMovementSpeed)
         {
-            walkSpeed = currentWalkSpeed;
+            movementSpeed = currentMovementSpeed;
         }
 
         if (Input.GetButtonDown("Jump") && controller.isGrounded)
@@ -97,7 +98,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * walkSpeed + Vector3.up * velocityY;
+        Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * movementSpeed + Vector3.up * velocityY;
         //print(currentDir);
 
         controller.Move(velocity * Time.deltaTime);//passes the move vector to the CharacterController
