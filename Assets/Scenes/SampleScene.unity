@@ -236,7 +236,7 @@ MonoBehaviour:
   walkSpeed: 6
   jumpHeight: 5
   gravity: -16
-  moveSmoothTime: 0.3
+  moveSmoothTime: 0.1
   mouseSmoothTime: 0.05
   controller: {fileID: 638865177}
   lockCursor: 1
@@ -346,7 +346,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
