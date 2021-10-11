@@ -10,7 +10,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float movementSpeed = 6.0f;//default 6.0
     [SerializeField] float jumpHeight = 5.0f;
     [SerializeField] float currentMovementSpeed = 6.0f;//current movement speed, modified by upgrades.
-    [SerializeField] float sprintMovementBoost = 3.0f;
+    [SerializeField] float sprintMovementSpeed = 3.0f;
+
+    
 
     [SerializeField] float gravity = -13f;
 
@@ -35,7 +37,9 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();//The controller to be used for character movement
 
-        if(lockCursor)
+        sprintMovementSpeed = currentMovementSpeed + sprintMovementSpeed;
+
+        if (lockCursor)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -45,6 +49,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (lockCursor)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+        
+
         UpdateMouseLook();
         updateMovement();
     }
@@ -54,6 +70,17 @@ public class PlayerController : MonoBehaviour
         Vector2 TargetMouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
         currentMouseDelta = Vector2.SmoothDamp(currentMouseDelta, TargetMouseDelta, ref currentMouseDeltaVelocity, mouseSmoothTime);
+
+        if (Input.GetKeyDown(KeyCode.Q) && lockCursor == true)//Allows the cursor to move freely and makes it visible
+        {
+            lockCursor = false;
+            print("LockCursor" + lockCursor);
+        }
+        else if (Input.GetKeyDown(KeyCode.Q) && lockCursor == false)//Hides the cursor and locks it to the screen
+        {
+            lockCursor = true;
+            print("LockCursor" + lockCursor);
+        }
 
 
         //print(mouseDelta);
@@ -85,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            movementSpeed += sprintMovementBoost;
+            movementSpeed = sprintMovementSpeed;
         }
         else if (movementSpeed != currentMovementSpeed)
         {
