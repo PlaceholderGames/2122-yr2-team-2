@@ -51,23 +51,19 @@ public class MenuController : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.E) && PauseMenu.enabled == false)
+        if (Input.GetKeyDown(KeyCode.Escape) && PauseMenu.enabled == false)
         {
             print("Menu opened");
             PauseMenu.enabled = true;
 
-            //These two lines allow the mouse to move and be seen by the player
-            Cursor.lockState = CursorLockMode.Confined;
-            Cursor.visible = true;
+            
         }
-        else if (Input.GetKeyDown(KeyCode.E) && PauseMenu.enabled == true)
+        else if (Input.GetKeyDown(KeyCode.Escape) && PauseMenu.enabled == true)
         {
             print("Menu closed");
             PauseMenu.enabled = false;
 
-            //These two lines locks the mouse to the middle of the screen and hides it from the player
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            
         }
     }
 }
