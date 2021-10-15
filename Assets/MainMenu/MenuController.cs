@@ -11,6 +11,8 @@ public class MenuController : MonoBehaviour
     public string _newGameLevel;
     private string levelToLoad;
 
+    [SerializeField] Canvas PauseMenu = null;
+
     public void NewGameDialogYes()
     {
         SceneManager.LoadScene(_newGameLevel);
@@ -27,14 +29,45 @@ public class MenuController : MonoBehaviour
     }
         
 
+
     void Start()
     {
-        
+        GameObject PauseMenuObject = GameObject.Find("PauseMenu");//the pause menu object
+
+        if (PauseMenuObject != null)
+        {
+            print("PauseMenu object found!");
+        }
+        else if (PauseMenuObject == null)
+        {
+            print("PauseMenu object not found!");
+        }
+
+        PauseMenu = PauseMenuObject.GetComponent<Canvas>();
+        print("Menu Controller Started!");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (Input.GetKeyDown(KeyCode.E) && PauseMenu.enabled == false)
+        {
+            print("Menu opened");
+            PauseMenu.enabled = true;
+
+            //These two lines allow the mouse to move and be seen by the player
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.E) && PauseMenu.enabled == true)
+        {
+            print("Menu closed");
+            PauseMenu.enabled = false;
+
+            //These two lines locks the mouse to the middle of the screen and hides it from the player
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }
