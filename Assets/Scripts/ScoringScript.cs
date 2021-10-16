@@ -18,9 +18,7 @@ public class ScoringScript : MonoBehaviour
 
         if(GameVariables.theScore == 4)
         {
-            SceneManager.UnloadSceneAsync(1);
-
-            SceneManager.LoadScene("WinMenu", LoadSceneMode.Additive);
+            SceneManager.LoadScene(2);
         }
 
     }
