@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     Vector2 currentMouseDelta = Vector2.zero;
     Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour
         }
 
         PauseMenu = PauseMenuObject.GetComponent<Canvas>();
+
     }
 
     // Update is called once per frame
@@ -83,8 +85,37 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = true;
         }
 
+        //If left mouse button is clicked
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            controller.GetComponent<Animator>().Play("Attack_1");
+        }
 
-        
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            controller.GetComponent<Animator>().Play("Walk");
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            controller.GetComponent<Animator>().Play("Walk_Back");
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            controller.GetComponent<Animator>().Play("Walk_Left");
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            controller.GetComponent<Animator>().Play("Walk_Right");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            controller.GetComponent<Animator>().Play("Jump");
+        }
+
 
         UpdateMouseLook();
         updateMovement();
