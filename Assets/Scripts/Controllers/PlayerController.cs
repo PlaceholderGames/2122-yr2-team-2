@@ -86,36 +86,64 @@ public class PlayerController : MonoBehaviour
         }
 
         //If left mouse button is clicked
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            controller.GetComponent<Animator>().Play("Attack_1");
+            controller.GetComponent<Animator>().SetBool("attack", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            controller.GetComponent<Animator>().SetBool("attack", false);
         }
 
+        //Animation for walking forward
         if (Input.GetKeyDown(KeyCode.W))
         {
-            controller.GetComponent<Animator>().Play("Walk");
+            controller.GetComponent<Animator>().SetBool("isWalking", true);
+        }
+        else if(Input.GetKeyUp(KeyCode.W))
+        {
+            controller.GetComponent<Animator>().SetBool("isWalking", false);
         }
 
+        //Animation for walking backward
         if (Input.GetKeyDown(KeyCode.S))
         {
-            controller.GetComponent<Animator>().Play("Walk_Back");
+            controller.GetComponent<Animator>().SetBool("isBack", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+        {
+            controller.GetComponent<Animator>().SetBool("isBack", false);
         }
 
+        //Animation for walking left
         if (Input.GetKeyDown(KeyCode.A))
         {
-            controller.GetComponent<Animator>().Play("Walk_Left");
+            controller.GetComponent<Animator>().SetBool("isLeft", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.A))
+        {
+            controller.GetComponent<Animator>().SetBool("isLeft", false);
         }
 
+        //Animation for walking right
         if (Input.GetKeyDown(KeyCode.D))
         {
-            controller.GetComponent<Animator>().Play("Walk_Right");
+            controller.GetComponent<Animator>().SetBool("isRight", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.D))
+        {
+            controller.GetComponent<Animator>().SetBool("isRight", false);
         }
 
+        //Animation for jumping
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            controller.GetComponent<Animator>().Play("Jump");
+            controller.GetComponent<Animator>().SetBool("isJumping", true);
         }
-
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            controller.GetComponent<Animator>().SetBool("isJumping", false);
+        }
 
         UpdateMouseLook();
         updateMovement();
@@ -184,7 +212,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            print("SPRINT" + sprintMovementSpeed);
+            print("SPRINT" + sprintMovementSpeed);  
             movementSpeed = sprintMovementSpeed;
         }
         else if (movementSpeed != currentMovementSpeed && PauseMenu.enabled == false)
