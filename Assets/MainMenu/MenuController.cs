@@ -10,12 +10,18 @@ public class MenuController : MonoBehaviour
 
     public string _newGameLevel;
     private string levelToLoad;
+    [SerializeField] public string currentLevel;
 
     [SerializeField] Canvas PauseMenu = null;
 
+    [SerializeField] Slider BrightnessSlider = null;
+    [SerializeField] Color ambientLightSetting;
     public void NewGameDialogYes()
     {
         SceneManager.LoadScene(_newGameLevel);
+        currentLevel = SceneManager.GetActiveScene().name;
+        RenderSettings.ambientLight = ambientLightSetting;
+        DynamicGI.UpdateEnvironment();
     }
 
     public void ExitGameDialogYes()
@@ -27,23 +33,48 @@ public class MenuController : MonoBehaviour
     {
         Application.Quit();
     }
-        
 
+    
+
+
+    public void BrightnessSliderMoved()
+    {
+        Screen.brightness = BrightnessSlider.value;
+        RenderSettings.ambientLight = new Color(1f, 1f, 1f) * BrightnessSlider.value;
+        ambientLightSetting = RenderSettings.ambientLight;
+        DynamicGI.UpdateEnvironment();
+    }
+
+    GameObject PauseMenuObject = null;
+    GameObject BrightnessSliderObject = null;
 
     void Start()
     {
-        GameObject PauseMenuObject = GameObject.Find("PauseMenu");//the pause menu object
+        PauseMenuObject = GameObject.Find("PauseMenu");//the pause menu object
+        BrightnessSliderObject = GameObject.Find("BrightnessSlider");
+        currentLevel = SceneManager.GetActiveScene().name;
 
         if (PauseMenuObject != null)
         {
             print("PauseMenu object found!");
+            PauseMenu = PauseMenuObject.GetComponent<Canvas>();
         }
         else if (PauseMenuObject == null)
         {
             print("PauseMenu object not found!");
         }
 
-        PauseMenu = PauseMenuObject.GetComponent<Canvas>();
+
+        if (BrightnessSliderObject != null)
+        {
+            print("BrightnessSlider object found!");
+            BrightnessSlider = BrightnessSliderObject.GetComponent<Slider>();
+        }
+        else if (BrightnessSliderObject == null)
+        {
+            print("BrightnessSlider object not found!");
+        }
+
         print("Menu Controller Started!");
     }
 
@@ -64,6 +95,36 @@ public class MenuController : MonoBehaviour
             PauseMenu.enabled = false;
 
             
+        }
+
+        if (BrightnessSliderObject == null)
+        {
+            BrightnessSliderObject = GameObject.Find("BrightnessSlider");
+
+            if (BrightnessSliderObject != null)
+            {
+                print("BrightnessSlider object found!");
+                BrightnessSlider = BrightnessSliderObject.GetComponent<Slider>();
+            }
+            else if (BrightnessSliderObject == null)
+            {
+                print("BrightnessSlider object not found!");
+            }
+        }
+
+        if (PauseMenuObject == null && currentLevel == "Level1")
+        {
+            PauseMenuObject = GameObject.Find("PauseMenu");
+
+            if (PauseMenuObject != null)
+            {
+                print("PauseMenu object found!");
+                PauseMenu = PauseMenuObject.GetComponent<Canvas>();
+            }
+            else if (PauseMenuObject == null)
+            {
+                print("PauseMenu object not found!");
+            }
         }
     }
 }
