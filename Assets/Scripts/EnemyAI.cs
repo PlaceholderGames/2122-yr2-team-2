@@ -26,10 +26,16 @@ public class EnemyAI : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+
+
+
     private void Awake()
     {
+        
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+
+        
     }
 
     private void Update()
@@ -41,6 +47,7 @@ public class EnemyAI : MonoBehaviour
         if (!playerInSightRange && !playerInAttackRange) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
+
     }
 
     private void Patroling()
