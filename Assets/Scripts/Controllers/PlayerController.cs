@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CharacterController controller = null;
     [SerializeField] bool lockCursor = true;//Locks the cursor in place so it doesn't leave the game screen
 
+    //Player stats
+    [SerializeField] int health = 100;
+
     Canvas PauseMenu = null;
 
 
@@ -230,5 +233,11 @@ public class PlayerController : MonoBehaviour
         //print(currentDir);
 
         controller.Move(velocity * Time.deltaTime);//passes the move vector to the CharacterController
+    }
+
+    public void takeDamage(int damage)
+    {
+        health -= damage;
+
     }
 }
