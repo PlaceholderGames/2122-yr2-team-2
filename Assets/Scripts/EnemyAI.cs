@@ -29,6 +29,15 @@ public class EnemyAI : MonoBehaviour
     //Damage the enemy does
     [SerializeField] public int damageDone = 50;
 
+    //Time between attacks
+    //[SerializeField] private float timerToAttack = 3f; //Random Timer.
+    //private float time = 1f;
+    //private bool canAttack = false;
+    //private bool playerTouched = false;
+
+    [SerializeField] private float setWaitTime = 3f;
+    private float waitTime = 3f;
+
 
 
 
@@ -123,11 +132,22 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
-        if(other.transform.name == "Player")
+
+        if (other.transform.name == "Player")
         {
-            other.GetComponent<PlayerController>().takeDamage(damageDone);
+
+            waitTime -= Time.deltaTime;
+
+            if (waitTime < 0)
+            {
+                other.GetComponent<PlayerController>().takeDamage(damageDone);
+
+                waitTime = setWaitTime;
+            }
         }
     }
+
+
 }
