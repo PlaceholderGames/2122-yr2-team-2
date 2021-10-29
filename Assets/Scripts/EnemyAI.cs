@@ -26,6 +26,18 @@ public class EnemyAI : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    //Damage the enemy does
+    [SerializeField] public int damageDone = 50;
+
+    //Time between attacks
+    //[SerializeField] private float timerToAttack = 3f; //Random Timer.
+    //private float time = 1f;
+    //private bool canAttack = false;
+    //private bool playerTouched = false;
+
+    [SerializeField] private float setWaitTime = 3f;
+    private float waitTime = 3f;
+
 
 
 
@@ -89,11 +101,8 @@ public class EnemyAI : MonoBehaviour
 
         if (!alreadyAttacked)
         {
-            ///Attack code here
-            //Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-            ///End of attack code
+            
+            
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -122,4 +131,23 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
+
+    public void OnTriggerStay(Collider other)
+    {
+
+        if (other.transform.name == "Player")
+        {
+
+            waitTime -= Time.deltaTime;
+
+            if (waitTime < 0)
+            {
+                other.GetComponent<PlayerController>().takeDamage(damageDone);
+
+                waitTime = setWaitTime;
+            }
+        }
+    }
+
+
 }
