@@ -38,18 +38,20 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float setWaitTime = 3f;
     private float waitTime = 3f;
 
+    GameObject rb = null;
 
-
+    public float lockPos = 0;
 
     private void Awake()
     {
-        
+
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
 
-        
+
     }
 
+    
     private void Update()
     {
         //Check for sight and attack range
@@ -60,20 +62,31 @@ public class EnemyAI : MonoBehaviour
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
 
+        transform.rotation = Quaternion.Euler(lockPos, transform.rotation.eulerAngles.y, lockPos);
+
     }
 
     private void Patroling()
     {
-        if (!walkPointSet) SearchWalkPoint();
+        if (!walkPointSet)
+        {
+            SearchWalkPoint();
+            rb.GetComponent<Animator>().SetBool("isWalking", false);
+        }
 
         if (walkPointSet)
+        {
             agent.SetDestination(walkPoint);
-
+            rb.GetComponent<Animator>().SetBool("isWalking", true);
+        }
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+            rb.GetComponent<Animator>().SetBool("isWalking", false);
+        }
     }
     private void SearchWalkPoint()
     {
@@ -90,6 +103,7 @@ public class EnemyAI : MonoBehaviour
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        rb.GetComponent<Animator>().SetBool("isWalking", true);
     }
 
     private void AttackPlayer()
