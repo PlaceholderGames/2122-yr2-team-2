@@ -27,7 +27,7 @@ public class EnemyAI : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
 
     //Damage the enemy does
-    [SerializeField] public int damageDone = 50;
+    [SerializeField] public int damageDone = 20;
 
     //Time between attacks
     //[SerializeField] private float timerToAttack = 3f; //Random Timer.
@@ -38,16 +38,18 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float setWaitTime = 3f;
     private float waitTime = 3f;
 
-    GameObject rb = null;
-
+    //Variable to lock the enemy rotation
     public float lockPos = 0;
+
+    //For animations
+    Animator anim;
 
     private void Awake()
     {
 
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-
+        anim = GetComponent<Animator>();
 
     }
 
@@ -62,6 +64,7 @@ public class EnemyAI : MonoBehaviour
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
 
+        //Lock enemy rotation
         transform.rotation = Quaternion.Euler(lockPos, transform.rotation.eulerAngles.y, lockPos);
 
     }
@@ -71,13 +74,13 @@ public class EnemyAI : MonoBehaviour
         if (!walkPointSet)
         {
             SearchWalkPoint();
-            rb.GetComponent<Animator>().SetBool("isWalking", false);
+            anim.SetBool("isWalking", false);
         }
 
         if (walkPointSet)
         {
             agent.SetDestination(walkPoint);
-            rb.GetComponent<Animator>().SetBool("isWalking", true);
+            
         }
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -85,7 +88,7 @@ public class EnemyAI : MonoBehaviour
         if (distanceToWalkPoint.magnitude < 1f)
         {
             walkPointSet = false;
-            rb.GetComponent<Animator>().SetBool("isWalking", false);
+            anim.SetBool("isWalking", false);
         }
     }
     private void SearchWalkPoint()
@@ -97,13 +100,17 @@ public class EnemyAI : MonoBehaviour
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        {
             walkPointSet = true;
+            
+        }
     }
 
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
-        rb.GetComponent<Animator>().SetBool("isWalking", true);
+        anim.SetBool("isWalking", true);
+
     }
 
     private void AttackPlayer()
@@ -112,6 +119,8 @@ public class EnemyAI : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(player);
+
+        anim.SetBool("isWalking", false);
 
         if (!alreadyAttacked)
         {
@@ -148,17 +157,20 @@ public class EnemyAI : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
+        
 
         if (other.transform.name == "Player")
         {
-
+            
             waitTime -= Time.deltaTime;
 
             if (waitTime < 0)
             {
                 other.GetComponent<PlayerController>().takeDamage(damageDone);
+                anim.SetTrigger("attack");
 
                 waitTime = setWaitTime;
+                
             }
         }
     }
