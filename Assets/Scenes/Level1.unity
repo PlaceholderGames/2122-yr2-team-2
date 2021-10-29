@@ -6621,8 +6621,8 @@ MonoBehaviour:
   attackRange: 2.81
   playerInSightRange: 0
   playerInAttackRange: 0
-  damageDone: 50
-  setWaitTime: 3
+  damageDone: 30
+  setWaitTime: 5
   lockPos: 0
 --- !u!4 &1573993684 stripped
 Transform:
@@ -8361,7 +8361,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.44, y: -22.377}
+  m_AnchoredPosition: {x: 172.44, y: -22.376953}
   m_SizeDelta: {x: 344.8847, y: 44.7536}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1731386266
