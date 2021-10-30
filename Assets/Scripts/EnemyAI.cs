@@ -26,18 +26,34 @@ public class EnemyAI : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    //Damage the enemy does
+    [SerializeField] public int damageDone = 20;
 
+    //Time between attacks
+    //[SerializeField] private float timerToAttack = 3f; //Random Timer.
+    //private float time = 1f;
+    //private bool canAttack = false;
+    //private bool playerTouched = false;
 
+    [SerializeField] private float setWaitTime = 3f;
+    private float waitTime = 3f;
+
+    //Variable to lock the enemy rotation
+    public float lockPos = 0;
+
+    //For animations
+    Animator anim;
 
     private void Awake()
     {
-        
+
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
 
-        
     }
 
+    
     private void Update()
     {
         //Check for sight and attack range
@@ -48,20 +64,32 @@ public class EnemyAI : MonoBehaviour
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInAttackRange && playerInSightRange) AttackPlayer();
 
+        //Lock enemy rotation
+        transform.rotation = Quaternion.Euler(lockPos, transform.rotation.eulerAngles.y, lockPos);
+
     }
 
     private void Patroling()
     {
-        if (!walkPointSet) SearchWalkPoint();
+        if (!walkPointSet)
+        {
+            SearchWalkPoint();
+            anim.SetBool("isWalking", false);
+        }
 
         if (walkPointSet)
+        {
             agent.SetDestination(walkPoint);
-
+            
+        }
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+            anim.SetBool("isWalking", false);
+        }
     }
     private void SearchWalkPoint()
     {
@@ -72,12 +100,17 @@ public class EnemyAI : MonoBehaviour
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
 
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        {
             walkPointSet = true;
+            
+        }
     }
 
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
+        anim.SetBool("isWalking", true);
+
     }
 
     private void AttackPlayer()
@@ -87,13 +120,12 @@ public class EnemyAI : MonoBehaviour
 
         transform.LookAt(player);
 
+        anim.SetBool("isWalking", false);
+
         if (!alreadyAttacked)
         {
-            ///Attack code here
-            //Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            //rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            //rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-            ///End of attack code
+            
+            
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -122,4 +154,26 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }
+
+    public void OnTriggerStay(Collider other)
+    {
+        
+
+        if (other.transform.name == "Player")
+        {
+            
+            waitTime -= Time.deltaTime;
+
+            if (waitTime < 0)
+            {
+                other.GetComponent<PlayerController>().takeDamage(damageDone);
+                anim.SetTrigger("attack");
+
+                waitTime = setWaitTime;
+                
+            }
+        }
+    }
+
+
 }

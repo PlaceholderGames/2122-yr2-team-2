@@ -2138,6 +2138,7 @@ MonoBehaviour:
   mouseSmoothTime: 0.05
   controller: {fileID: 638865177}
   lockCursor: 1
+  health: 100
 --- !u!136 &638865179
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6617,9 +6618,12 @@ MonoBehaviour:
   walkPointRange: 5
   timeBetweenAttacks: 0.5
   sightRange: 22.27
-  attackRange: 12
+  attackRange: 2.81
   playerInSightRange: 0
   playerInAttackRange: 0
+  damageDone: 30
+  setWaitTime: 5
+  lockPos: 0
 --- !u!4 &1573993684 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2488047018795776868, guid: 009cbbbecafbcfc4f9bc5eb81c9f2bd1, type: 3}
@@ -6706,6 +6710,19 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: bbcc3d8345d80d6408feebd3ee9898af, type: 2}
+--- !u!135 &1573993690
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1573993682}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.200123
+  m_Center: {x: 0.38455278, y: 1.4327242, z: 1.6562629}
 --- !u!1 &1578227061
 GameObject:
   m_ObjectHideFlags: 0
@@ -8344,7 +8361,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 172.44, y: -22.377}
+  m_AnchoredPosition: {x: 172.44, y: -22.376953}
   m_SizeDelta: {x: 344.8847, y: 44.7536}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1731386266
