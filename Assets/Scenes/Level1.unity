@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 58501028}
-  attackRange: 1.15
+  attackRange: 0.5
   enemyLayers:
     serializedVersion: 2
     m_Bits: 256
@@ -6272,30 +6272,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476425310}
   m_Mesh: {fileID: 1794977453869052369, guid: 852e1795377a9e64e88953f503c7591a, type: 3}
---- !u!1 &1488370688 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8897669429589117326, guid: 9539b535e8bcf43459f176e9bf890235, type: 3}
-  m_PrefabInstance: {fileID: 1992266822}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1488370692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1488370688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 239308a29f2ca7940ad26b40b7dbf769, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackPoint: {fileID: 0}
-  attackRange: 0.5
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  attackDamage: 40
-  attackRate: 2
 --- !u!1 &1543746836
 GameObject:
   m_ObjectHideFlags: 0

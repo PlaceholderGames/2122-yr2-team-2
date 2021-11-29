@@ -12,17 +12,30 @@ public class weaponHitDetection : MonoBehaviour
 
     public float attackRate = 2f;
     float nextAttackTime = 0f;
+    private float setWaitTime = 1f;
+    private float waitTime = 1f;
+    private int attackCount = 0;
 
     // Update is called once per frame
     void Update()
     {
-
-        if(Time.time >= nextAttackTime)
+        
+        waitTime -= Time.deltaTime;
+        //print("waitTime" + waitTime);
+        
+        if (waitTime <= 0.0f)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            attackCount = 0;
+            //print("Can attack");
+            if (Input.GetKeyDown(KeyCode.Mouse0) && waitTime <= 0.0f && attackCount < 1)
             {
-                Attack();
+                attackCount++;
+                print("attack count: " + attackCount);
+                waitTime = 1f;
+                print("Attack 1!");
                 nextAttackTime = Time.time + 1f / attackRate;
+                Attack();
+                
             }
         }
     }
@@ -33,7 +46,9 @@ public class weaponHitDetection : MonoBehaviour
 
         foreach(Collider enemy in hitEnemies)
         {
+            
             enemy.GetComponent<EnemyAI>().TakeDamage(attackDamage);
+            print("Attack 2!!   " + attackDamage);
         }
     }
 

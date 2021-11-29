@@ -108,7 +108,7 @@ public class MenuController : MonoBehaviour
             }
             else if (BrightnessSliderObject == null)
             {
-                print("BrightnessSlider object not found!");
+                //print("BrightnessSlider object not found!");
             }
         }
 
