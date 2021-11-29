@@ -6,15 +6,13 @@ public class weaponHitDetection : MonoBehaviour
 {
 
     public Transform attackPoint;
-    public float attackRange = 0.5f;
+    public float attackRange = 1.5f;
     public LayerMask enemyLayers;
     public int attackDamage = 40;
 
     public float attackRate = 2f;
-    float nextAttackTime = 0f;
-    private float setWaitTime = 1f;
+    //private float setWaitTime = 1f;
     private float waitTime = 1f;
-    private int attackCount = 0;
 
     // Update is called once per frame
     void Update()
@@ -25,30 +23,39 @@ public class weaponHitDetection : MonoBehaviour
         
         if (waitTime <= 0.0f)
         {
-            attackCount = 0;
             //print("Can attack");
-            if (Input.GetKeyDown(KeyCode.Mouse0) && waitTime <= 0.0f && attackCount < 1)
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                attackCount++;
-                print("attack count: " + attackCount);
                 waitTime = 1f;
                 print("Attack 1!");
-                nextAttackTime = Time.time + 1f / attackRate;
+                //nextAttackTime = Time.time + 1f / attackRate;
                 Attack();
                 
             }
         }
     }
 
+    //This is a tad buggy, doesn't allways attack the enemy because it's only damaging when it hits a CapsuleCollider
+    //but there is a sphere collider that keeps intercepting the hit!
     void Attack()
     {
         Collider[] hitEnemies = Physics.OverlapSphere(attackPoint.position, attackRange, enemyLayers);
 
+        for (int i = 0; i < hitEnemies.Length; i++)
+        {
+            print("Enemy # "+ i + ": " + hitEnemies[i] + "\n");
+        }
+
+        
+
         foreach(Collider enemy in hitEnemies)
         {
+            if (enemy is CapsuleCollider)
+            {
+                enemy.GetComponent<EnemyAI>().TakeDamage(attackDamage);
+                print("Attack 2!!   " + attackDamage);
+            }
             
-            enemy.GetComponent<EnemyAI>().TakeDamage(attackDamage);
-            print("Attack 2!!   " + attackDamage);
         }
     }
 
@@ -60,6 +67,6 @@ public class weaponHitDetection : MonoBehaviour
         }
 
 
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        //Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }
