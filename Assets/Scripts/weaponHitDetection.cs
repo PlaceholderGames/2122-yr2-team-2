@@ -67,6 +67,6 @@ public class weaponHitDetection : MonoBehaviour
         }
 
 
-        //Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

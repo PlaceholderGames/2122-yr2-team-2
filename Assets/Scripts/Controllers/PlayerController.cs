@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,6 +39,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int health = 100;
 
     Canvas PauseMenu = null;
+    GameObject PauseMenuObject = null;
+
+    //HUD
+    GameObject HudObject = null;
+    Canvas HUD = null;
+    GameObject HealthBarObject = null;
+    Slider HealthBar = null;
+    GameObject healthBarTextObject = null;
+    TMP_Text healthBarText = null;
 
 
     float cameraPitch = 0.0f;//camera pitch, default is 0.0f
@@ -53,6 +64,14 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();//The controller to be used for character movement
+        HudObject = GameObject.Find("HUD");//The HUD object that holds all the HUD items
+        HealthBarObject = GameObject.Find("Health"); //The health bar object that acutally contains the health bar slider
+        HUD = HudObject.GetComponent<Canvas>();//The canvas in the HUD object
+        HealthBar = HealthBarObject.GetComponent<Slider>();//The health bar slider within the health bar object.
+        healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
+        healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
+        
+
 
         //sprintMovementSpeed = currentMovementSpeed + sprintMovementSpeed;
 
@@ -62,7 +81,7 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = false;
         }
 
-        GameObject PauseMenuObject = GameObject.Find("PauseMenu");//the pause menu object
+        PauseMenuObject = GameObject.Find("PauseMenu");//the pause menu object
 
         if (PauseMenuObject != null)
         {
@@ -241,8 +260,9 @@ public class PlayerController : MonoBehaviour
     public void takeDamage(int damage)
     {
         health -= damage;
-
-        if(health <= 0)
+        HealthBar.value = health;
+        healthBarText.text = health + "/100";
+        if (health <= 0)
         {
             SceneManager.LoadScene("LoseScreen");
         }
