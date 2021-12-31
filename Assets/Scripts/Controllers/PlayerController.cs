@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,16 +12,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float mouseSensitivity = 3.5f;
 
     //The current walk speed, and the current max walk speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
-    [SerializeField] float movementSpeed = 6.0f;//default 6.0f
-    [SerializeField] float currentMovementSpeed = 6.0f;
+    [SerializeField] float movementSpeed = 7.0f;//default 7.0f
+    [SerializeField] float currentMovementSpeed = 7.0f;
 
     //The current jump height, and the current max jump height (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
     [SerializeField] float jumpHeight = 5.0f;//default 5.0f
     [SerializeField] float currentJumpHeight = 5.0f;
 
     //The current sprint speed, and the current max sprint speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
-    [SerializeField] float sprintMovementSpeed = 9.0f;//default 9.0f
-    [SerializeField] float currentSprintMovementSpeed = 9.0f;
+    //Eventually I want this to be changed to a sprintMovementSpeedBoost so that sprinting adds to the movement speed instead of setting it to a hard number
+    //This is currently an issue because when shift is held it would constantly add the speed until your're doing the speed of light!!
+    [SerializeField] float sprintMovementSpeed = 10.0f;//default 10.0f
+    [SerializeField] float currentSprintMovementSpeed = 10.0f;
 
     
 
@@ -35,6 +39,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int health = 100;
 
     Canvas PauseMenu = null;
+    GameObject PauseMenuObject = null;
+
+    //HUD
+    GameObject HudObject = null;
+    Canvas HUD = null;
+    GameObject HealthBarObject = null;
+    Slider HealthBar = null;
+    GameObject healthBarTextObject = null;
+    TMP_Text healthBarText = null;
 
 
     float cameraPitch = 0.0f;//camera pitch, default is 0.0f
@@ -51,6 +64,14 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();//The controller to be used for character movement
+        HudObject = GameObject.Find("HUD");//The HUD object that holds all the HUD items
+        HealthBarObject = GameObject.Find("Health"); //The health bar object that acutally contains the health bar slider
+        HUD = HudObject.GetComponent<Canvas>();//The canvas in the HUD object
+        HealthBar = HealthBarObject.GetComponent<Slider>();//The health bar slider within the health bar object.
+        healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
+        healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
+        
+
 
         //sprintMovementSpeed = currentMovementSpeed + sprintMovementSpeed;
 
@@ -60,7 +81,7 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = false;
         }
 
-        GameObject PauseMenuObject = GameObject.Find("PauseMenu");//the pause menu object
+        PauseMenuObject = GameObject.Find("PauseMenu");//the pause menu object
 
         if (PauseMenuObject != null)
         {
@@ -216,7 +237,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            print("SPRINT" + sprintMovementSpeed);  
+            //print("SPRINT" + sprintMovementSpeed);  
             movementSpeed = sprintMovementSpeed;
         }
         else if (movementSpeed != currentMovementSpeed && PauseMenu.enabled == false)
@@ -239,8 +260,9 @@ public class PlayerController : MonoBehaviour
     public void takeDamage(int damage)
     {
         health -= damage;
-
-        if(health <= 0)
+        HealthBar.value = health;
+        healthBarText.text = health + "/100";
+        if (health <= 0)
         {
             SceneManager.LoadScene("LoseScreen");
         }
