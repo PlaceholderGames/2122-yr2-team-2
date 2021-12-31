@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool lockCursor = true;//Locks the cursor in place so it doesn't leave the game screen
 
     //Player stats
+    [SerializeField] int maxHealth = 100;
     [SerializeField] int health = 100;
 
     Canvas PauseMenu = null;
@@ -261,10 +262,26 @@ public class PlayerController : MonoBehaviour
     {
         health -= damage;
         HealthBar.value = health;
-        healthBarText.text = health + "/100";
+        healthBarText.text = health + "/" + maxHealth;
         if (health <= 0)
         {
             SceneManager.LoadScene("LoseScreen");
         }
+    }
+
+    public void heal(int healing)
+    {
+        //just making sure the healing doesn't push you past the max health
+        if (health + healing < maxHealth)
+        {
+            health += healing;
+        }
+        else
+        {
+            health = maxHealth;
+        }
+
+        HealthBar.value = health;
+        healthBarText.text = health + "/" + maxHealth;
     }
 }
