@@ -36,21 +36,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int healthLevel = 0;
     [SerializeField] int maxHealth = 100;
     [SerializeField] int health = 100;
+    [SerializeField] int healthRegenerationLevel = 0;
+    [SerializeField] int healthRegeneration = 0;
 
     //====================Speed====================
     //The current walk speed, and the current max walk speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
+    float defaultMovementSpeed = 7.0f;
     [SerializeField] float movementSpeed = 7.0f;//default 7.0f
     [SerializeField] float currentMovementSpeed = 7.0f;
+    [SerializeField] int movementSpeedLevel = 0;
 
     //The current sprint speed, and the current max sprint speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
     //Eventually I want this to be changed to a sprintMovementSpeedBoost so that sprinting adds to the movement speed instead of setting it to a hard number
     //This is currently an issue because when shift is held it would constantly add the speed until your're doing the speed of light!!
+    float defaultSprintMovementSpeed = 10.0f;
     [SerializeField] float sprintMovementSpeed = 10.0f;//default 10.0f
     [SerializeField] float currentSprintMovementSpeed = 10.0f;
 
 
     //====================Damage====================
     //This is handled in the "weaponHitDetection.cs" file
+    [SerializeField] int damageLevel = 0;
 
     //====================Damage Protection====================
     //This percentage is used to reduce the amount of damage inflicted on the player
@@ -58,12 +64,14 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] float damageProtectionPercentage = 0.0f;
 
     int defaultDamageProtection = 0;
+    [SerializeField] int damageProtectionLevel = 0;
     [SerializeField] int damageProtection = 0;
 
     //====================Money====================
     //Default money is 0
     [SerializeField] float money = 1000.0f;
     float defaultIncomeMultiplier = 0.0f;
+    [SerializeField] int incomeMultiplierLevel = 0;
     [SerializeField] float incomeMultiplier = 0.0f;
     //Income multiplier will go here
     //The framework for this one isn't done yet, so won't be implemented quite yet
@@ -336,12 +344,48 @@ public class PlayerController : MonoBehaviour
 
     //increases/decreases the max health by the total levels upgraded
     //Updates the health bars values then refreshes it.
-    public void changeHealthLevel(int numberOfLevels)
+    public void changeStatLevel(int numberOfLevels, int changeWhat)
     {
         healthLevel += numberOfLevels;
         maxHealth += numberOfLevels * 10;
         HealthBar.maxValue = maxHealth;
         healthBarText.text = health + "/" + maxHealth;
+
+
+
+
+        switch (changeWhat)
+        {
+            case 0:
+                healthLevel += numberOfLevels;
+                maxHealth += numberOfLevels * 10;
+                HealthBar.maxValue = maxHealth;
+                healthBarText.text = health + "/" + maxHealth;
+                break;
+            case 1:
+                healthRegenerationLevel += numberOfLevels;
+                healthRegeneration = healthRegenerationLevel;
+                break;
+            case 2:
+                damageLevel += numberOfLevels;
+                //More to be done here once the rest of these upgrades are sorted
+                break;
+            case 3:
+                damageProtectionLevel += numberOfLevels;
+                damageProtection = numberOfLevels;
+                break;
+            case 4:
+                movementSpeedLevel += numberOfLevels;
+                movementSpeed = 7.0f + (float)numberOfLevels;
+                currentMovementSpeed = 7.0f + (float)numberOfLevels;
+                sprintMovementSpeed = 10.0f + (float)numberOfLevels;
+                currentSprintMovementSpeed = 10.0f + (float)numberOfLevels;
+                break;
+            case 5:
+                incomeMultiplierLevel += numberOfLevels;
+                incomeMultiplier = incomeMultiplierLevel;
+                break;
+        }
     }
 
     public int getHealthLevel()
@@ -378,5 +422,51 @@ public class PlayerController : MonoBehaviour
     {
         print("Spending: " + spending + " deducted from: " + money);
         money -= spending;
+    }
+
+
+    public int getHealthRegenerationLevel()
+    {
+        return healthRegenerationLevel;
+    }
+
+    public int getHealthRegeneration()
+    {
+        return healthRegeneration;
+    }
+
+    public int getDamageLevel()
+    {
+        return damageLevel;
+    }
+
+    public int getDamageProtectionLevel()
+    {
+        return damageProtectionLevel;
+    }
+
+    public int getDamageProtection()
+    {
+        return damageProtection;
+    }
+
+    public int getSpeedLevel()
+    {
+        return movementSpeedLevel;
+    }
+
+    public float getSpeed()
+    {
+        return movementSpeed;
+    }
+
+    public int getIncomeMultiplierLevel()
+    {
+        return incomeMultiplierLevel;
+    }
+
+    public float getIncomeMultiplier()
+    {
+        return incomeMultiplier;
     }
 }
