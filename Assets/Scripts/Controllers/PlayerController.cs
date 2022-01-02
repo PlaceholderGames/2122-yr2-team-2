@@ -11,19 +11,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform playerCamera = null;
     [SerializeField] float mouseSensitivity = 3.5f;
 
-    //The current walk speed, and the current max walk speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
-    [SerializeField] float movementSpeed = 7.0f;//default 7.0f
-    [SerializeField] float currentMovementSpeed = 7.0f;
+    
 
     //The current jump height, and the current max jump height (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
     [SerializeField] float jumpHeight = 5.0f;//default 5.0f
     [SerializeField] float currentJumpHeight = 5.0f;
 
-    //The current sprint speed, and the current max sprint speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
-    //Eventually I want this to be changed to a sprintMovementSpeedBoost so that sprinting adds to the movement speed instead of setting it to a hard number
-    //This is currently an issue because when shift is held it would constantly add the speed until your're doing the speed of light!!
-    [SerializeField] float sprintMovementSpeed = 10.0f;//default 10.0f
-    [SerializeField] float currentSprintMovementSpeed = 10.0f;
+    
 
     
 
@@ -35,12 +29,51 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CharacterController controller = null;
     [SerializeField] bool lockCursor = true;//Locks the cursor in place so it doesn't leave the game screen
 
-    //Player stats
+    //========================================Player stats========================================
+
+    //====================Health====================
+    int defaultHealth = 100;
+    [SerializeField] int healthLevel = 0;
     [SerializeField] int maxHealth = 100;
     [SerializeField] int health = 100;
 
+    //====================Speed====================
+    //The current walk speed, and the current max walk speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
+    [SerializeField] float movementSpeed = 7.0f;//default 7.0f
+    [SerializeField] float currentMovementSpeed = 7.0f;
+
+    //The current sprint speed, and the current max sprint speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
+    //Eventually I want this to be changed to a sprintMovementSpeedBoost so that sprinting adds to the movement speed instead of setting it to a hard number
+    //This is currently an issue because when shift is held it would constantly add the speed until your're doing the speed of light!!
+    [SerializeField] float sprintMovementSpeed = 10.0f;//default 10.0f
+    [SerializeField] float currentSprintMovementSpeed = 10.0f;
+
+
+    //====================Damage====================
+    //This is handled in the "weaponHitDetection.cs" file
+
+    //====================Damage Protection====================
+    //This percentage is used to reduce the amount of damage inflicted on the player
+    //float defaultDamageProtectionPercentage = 0.0f;
+    //[SerializeField] float damageProtectionPercentage = 0.0f;
+
+    int defaultDamageProtection = 0;
+    [SerializeField] int damageProtection = 0;
+
+    //====================Money====================
+    //Default money is 0
+    [SerializeField] float money = 1000.0f;
+    float defaultIncomeMultiplier = 0.0f;
+    [SerializeField] float incomeMultiplier = 0.0f;
+    //Income multiplier will go here
+    //The framework for this one isn't done yet, so won't be implemented quite yet
+
+
     Canvas PauseMenu = null;
     GameObject PauseMenuObject = null;
+
+    Canvas upgradeMenu = null;
+    GameObject upgradeMenuObject = null;
 
     //HUD
     GameObject HudObject = null;
@@ -71,7 +104,7 @@ public class PlayerController : MonoBehaviour
         HealthBar = HealthBarObject.GetComponent<Slider>();//The health bar slider within the health bar object.
         healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
         healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
-        
+        money = 1000.0f;
 
 
         //sprintMovementSpeed = currentMovementSpeed + sprintMovementSpeed;
@@ -95,6 +128,20 @@ public class PlayerController : MonoBehaviour
 
         PauseMenu = PauseMenuObject.GetComponent<Canvas>();
 
+
+
+        upgradeMenuObject = GameObject.Find("UpgradesPanel");//the upgrade menu object
+
+        if (upgradeMenuObject != null)
+        {
+            print("upgradeMenu object found!");
+        }
+        else if (upgradeMenuObject == null)
+        {
+            print("upgradeMenu object not found!");
+        }
+
+        upgradeMenu = upgradeMenuObject.GetComponent<Canvas>();
     }
 
     // Update is called once per frame
@@ -192,7 +239,7 @@ public class PlayerController : MonoBehaviour
             print("LockCursor" + lockCursor);
         }
 
-        if (PauseMenu.enabled)
+        if (PauseMenu.enabled || upgradeMenu.enabled)
         {
             lockCursor = false;
             mouseSensitivity = 0.0f;
@@ -200,7 +247,7 @@ public class PlayerController : MonoBehaviour
             sprintMovementSpeed = 0.0f;
             jumpHeight = 0.0f;
         }
-        else if (PauseMenu.enabled == false)
+        else if (!PauseMenu.enabled || !upgradeMenu.enabled)
         {
             lockCursor = true;
             mouseSensitivity = 3.5f;
@@ -258,9 +305,11 @@ public class PlayerController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);//passes the move vector to the CharacterController
     }
 
+    //Damages the players health
+    //The incoming damage is modified by the damage protection variable
     public void takeDamage(int damage)
     {
-        health -= damage;
+        health -= (damage -= damageProtection);
         HealthBar.value = health;
         healthBarText.text = health + "/" + maxHealth;
         if (health <= 0)
@@ -283,5 +332,51 @@ public class PlayerController : MonoBehaviour
 
         HealthBar.value = health;
         healthBarText.text = health + "/" + maxHealth;
+    }
+
+    //increases/decreases the max health by the total levels upgraded
+    //Updates the health bars values then refreshes it.
+    public void changeHealthLevel(int numberOfLevels)
+    {
+        healthLevel += numberOfLevels;
+        maxHealth += numberOfLevels * 10;
+        HealthBar.maxValue = maxHealth;
+        healthBarText.text = health + "/" + maxHealth;
+    }
+
+    public int getHealthLevel()
+    {
+        return healthLevel;
+    }
+
+    public int getHealth()
+    {
+        return health;
+    }
+
+    public int getMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    //This is used if the health level is being set straight to something
+    //e.g when a status affect hard sets your health level
+    public void setHealthLevel(int level)
+    {
+        healthLevel = level;
+    }
+
+
+
+    public float getPlayerMoney()
+    {
+        //print("Money: " + money);
+        return money;
+    }
+
+    public void spendPlayerMoney(float spending)
+    {
+        print("Spending: " + spending + " deducted from: " + money);
+        money -= spending;
     }
 }
