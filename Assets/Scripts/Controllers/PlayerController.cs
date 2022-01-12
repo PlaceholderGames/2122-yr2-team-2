@@ -45,6 +45,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int healthRegenerationLevel = 0;
     [SerializeField] int healthRegeneration = 1;
 
+    bool healthRegenerating = false;
+    float healthRegenerationTimer = 1.0f;
+
     //====================Speed====================
     //The current walk speed, and the current max walk speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
     float defaultMovementSpeed = 7.0f;
@@ -119,6 +122,8 @@ public class PlayerController : MonoBehaviour
         healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
         healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
         money = 1000.0f;
+
+        healthRegeneration = 1 + healthRegenerationLevel;
 
         if (controller == null)
         {
@@ -311,6 +316,33 @@ public class PlayerController : MonoBehaviour
             healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
         }
         
+        if (healthRegenerating == true)
+        {
+            healthRegenerationTimer -= Time.deltaTime;
+            if (healthRegenerationTimer <= 0.0f)
+            {
+                if ((health + healthRegeneration) <= maxHealth)
+                {
+                    health += healthRegeneration;
+                }
+                else
+                {
+                    health = maxHealth;
+                }
+                print("Health Regen" + healthRegeneration);
+                healthBarText.text = health + "/" + maxHealth;
+                HealthBar.value = health;
+
+                healthRegenerationTimer = 1.0f;
+
+                if(health == maxHealth)
+                {
+                    healthRegenerating = false;
+                }
+            }
+            
+        }
+        
     }
 
     void UpdateMouseLook()//gets mouse input
@@ -407,6 +439,7 @@ public class PlayerController : MonoBehaviour
     //The incoming damage is modified by the damage protection variable
     public void takeDamage(int damage)
     {
+        healthRegenerating = false;
         health -= (damage -= damageProtection);
         HealthBar.value = health;
         healthBarText.text = health + "/" + maxHealth;
@@ -414,6 +447,16 @@ public class PlayerController : MonoBehaviour
         {
             SceneManager.LoadScene("LoseScreen");
         }
+
+        StartCoroutine(enableHealthRegen());
+    }
+
+    IEnumerator enableHealthRegen()
+    {
+        //WaitForSecondsRealtime(5); is used if you don't want the games current tick speed to affect the timer
+        //yield return new WaitForSecondsRealtime(5);
+        yield return new WaitForSeconds(5);
+        healthRegenerating = true;
     }
 
     public void heal(int healing)
@@ -451,7 +494,9 @@ public class PlayerController : MonoBehaviour
                 break;
             case 1:
                 healthRegenerationLevel += numberOfLevels;
+                print("Health Regen " + healthRegeneration);
                 healthRegeneration = 1 + healthRegenerationLevel;
+                print("Health Regen " + healthRegeneration);
                 print("Health Regen levels: " + healthRegenerationLevel + " health regen: " + healthRegeneration);
                 break;
             case 2:
