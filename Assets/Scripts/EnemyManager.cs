@@ -13,23 +13,30 @@ public class EnemyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SpawnNewEnemy();
+        //SpawnNewEnemy();
+        EnemyAI.OnEnemyKilled += enemyDied;
     }
 
     private void Update()
     {
-        if(spawning)
+        
+        if (spawning)
         {
             waitTime -= Time.deltaTime;
+            print(waitTime);
         }
-
-        if(waitTime <= 0.0f)
+        
+        if (waitTime <= 0.0f)
         {
             if (spawning)
             {
-                EnemyAI.OnEnemyKilled += SpawnNewEnemy;
+                print("Spawning enemy");
                 spawning = false;
                 waitTime = 15f;
+                //Instantiate(enemyPrefab, spawnPoints[0].transform.position, Quaternion.identity);
+                SpawnNewEnemy();
+                EnemyAI.OnEnemyKilled += enemyDied;
+                
             }
         }
     }
@@ -39,9 +46,12 @@ public class EnemyManager : MonoBehaviour
         
     }
 
+    void enemyDied()
+    {
+        spawning = true;
+    }
     void SpawnNewEnemy()
     {
         Instantiate(enemyPrefab, spawnPoints[0].transform.position, Quaternion.identity);
-        spawning = true;
     }
 }
