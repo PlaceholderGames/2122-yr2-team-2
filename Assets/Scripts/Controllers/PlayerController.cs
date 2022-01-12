@@ -602,4 +602,10 @@ public class PlayerController : MonoBehaviour
     {
         return incomeMultiplier;
     }
+
+
+    public void rewardPlayer()
+    {
+        money += (10 * incomeMultiplier);
+    }
 }
