@@ -12,6 +12,10 @@ public class EnemyAI : MonoBehaviour
 
     public float health;
 
+    //Variables for spawning the enemy multiple times (For reference go to EnemyManager script)
+    public delegate void EnemyKilled();
+    public static event EnemyKilled OnEnemyKilled;
+
     //Patroling
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -145,6 +149,11 @@ public class EnemyAI : MonoBehaviour
     private void DestroyEnemy()
     {
         Destroy(gameObject);
+
+        if(OnEnemyKilled != null)
+        {
+            OnEnemyKilled();
+        }
     }
 
     private void OnDrawGizmosSelected()
