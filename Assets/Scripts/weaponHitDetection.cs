@@ -77,6 +77,6 @@ public class weaponHitDetection : MonoBehaviour
 
     public void setDamage(int level)
     {
-        attackDamage += level;
+        attackDamage = 40 + level;
     }
 }

@@ -32,12 +32,18 @@ public class PlayerController : MonoBehaviour
     //========================================Player stats========================================
 
     //====================Health====================
+    //Defaults are:
+    //health = 100
+    //health level = 0
+    //max health = 100
+    //healthRegenerationLevel = 0
+    //healthRegeneration = 1
     int defaultHealth = 100;
     [SerializeField] int healthLevel = 0;
     [SerializeField] int maxHealth = 100;
     [SerializeField] int health = 100;
     [SerializeField] int healthRegenerationLevel = 0;
-    [SerializeField] int healthRegeneration = 0;
+    [SerializeField] int healthRegeneration = 1;
 
     //====================Speed====================
     //The current walk speed, and the current max walk speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
@@ -70,9 +76,9 @@ public class PlayerController : MonoBehaviour
     //====================Money====================
     //Default money is 0
     [SerializeField] float money = 1000.0f;
-    float defaultIncomeMultiplier = 0.0f;
+    float defaultIncomeMultiplier = 1.0f;
     [SerializeField] int incomeMultiplierLevel = 0;
-    [SerializeField] float incomeMultiplier = 0.0f;
+    [SerializeField] float incomeMultiplier = 1.0f;
     //Income multiplier will go here
     //The framework for this one isn't done yet, so won't be implemented quite yet
 
@@ -105,15 +111,51 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<CharacterController>();//The controller to be used for character movement
+        controller = GameObject.Find("Player").GetComponent<CharacterController>();//The controller to be used for character movement
         HudObject = GameObject.Find("HUD");//The HUD object that holds all the HUD items
-        HealthBarObject = GameObject.Find("Health"); //The health bar object that acutally contains the health bar slider
+        HealthBarObject = GameObject.Find("HealthBar"); //The health bar object that acutally contains the health bar slider
         HUD = HudObject.GetComponent<Canvas>();//The canvas in the HUD object
         HealthBar = HealthBarObject.GetComponent<Slider>();//The health bar slider within the health bar object.
         healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
         healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
         money = 1000.0f;
 
+        if (controller == null)
+        {
+            controller = GameObject.Find("Player").GetComponent<CharacterController>();//The controller to be used for character movement
+        }
+
+        if (HudObject == null)
+        {
+            HudObject = GameObject.Find("HUD");//The HUD object that holds all the HUD items
+        }
+
+        if (HealthBarObject == null)
+        {
+            HealthBarObject = GameObject.Find("HealthBar"); //The health bar object that acutally contains the health bar slider
+        }
+
+        if (HealthBar == null)
+        {
+            HealthBar = HealthBarObject.GetComponent<Slider>();//The health bar slider within the health bar object.
+        }
+
+        if (healthBarTextObject == null)
+        {
+            healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
+        }
+
+        if (healthBarText == null)
+        {
+            healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
+        }
+
+        if (HUD == null)
+        {
+            HUD = HudObject.GetComponent<Canvas>();//The canvas in the HUD object
+        }
+
+        
 
         //sprintMovementSpeed = currentMovementSpeed + sprintMovementSpeed;
 
@@ -228,6 +270,47 @@ public class PlayerController : MonoBehaviour
 
         UpdateMouseLook();
         updateMovement();
+
+        if (controller == null)
+        {
+            print("Looking for Controller!");
+            controller = GameObject.Find("Player").GetComponent<CharacterController>();//The controller to be used for character movement
+        }
+        else
+        {
+            print("Controller found!?");
+        }
+
+        if (HudObject == null)
+        {
+            HudObject = GameObject.Find("HUD");//The HUD object that holds all the HUD items
+        }
+
+        if (HealthBarObject == null)
+        {
+            HealthBarObject = GameObject.Find("HealthBar"); //The health bar object that acutally contains the health bar slider
+        }
+
+        if (HUD == null)
+        {
+            HUD = HudObject.GetComponent<Canvas>();//The canvas in the HUD object
+        }
+
+        if (HealthBar == null)
+        {
+            HealthBar = HealthBarObject.GetComponent<Slider>();//The health bar slider within the health bar object.
+        }
+
+        if (healthBarTextObject == null)
+        {
+            healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
+        }
+
+        if (healthBarText == null)
+        {
+            healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
+        }
+        
     }
 
     void UpdateMouseLook()//gets mouse input
@@ -279,11 +362,18 @@ public class PlayerController : MonoBehaviour
 
     void updateMovement()
     {
+        if (!controller)
+        {
+            print("Looking for Controller!");
+            controller = GameObject.Find("Player").GetComponent<CharacterController>();//The controller to be used for character movement
+        }
+
         Vector2 targetDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         targetDir.Normalize();
 
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
+        print(controller);
         if (controller.isGrounded)
             velocityY = 0;
 
@@ -344,27 +434,25 @@ public class PlayerController : MonoBehaviour
 
     //increases/decreases the max health by the total levels upgraded
     //Updates the health bars values then refreshes it.
+    //If the default for a stat is 0 then it'll just add the total of new levels onto the stat
+    //If the default for a stat is above 0 then it'll add the default + total of new levels
+    //Some stats use the levels to multiply a number (like health, it does "100 + level * 10")
     public void changeStatLevel(int numberOfLevels, int changeWhat)
     {
-        healthLevel += numberOfLevels;
-        maxHealth += numberOfLevels * 10;
-        HealthBar.maxValue = maxHealth;
-        healthBarText.text = health + "/" + maxHealth;
-
-
-
-
         switch (changeWhat)
         {
             case 0:
                 healthLevel += numberOfLevels;
-                maxHealth += numberOfLevels * 10;
+                print("Health levels: " + healthLevel);
+                maxHealth += healthLevel * 10;
+                print("Max Health: " + maxHealth);
                 HealthBar.maxValue = maxHealth;
                 healthBarText.text = health + "/" + maxHealth;
                 break;
             case 1:
                 healthRegenerationLevel += numberOfLevels;
-                healthRegeneration = healthRegenerationLevel;
+                healthRegeneration = 1 + healthRegenerationLevel;
+                print("Health Regen levels: " + healthRegenerationLevel + " health regen: " + healthRegeneration);
                 break;
             case 2:
                 damageLevel += numberOfLevels;
@@ -372,7 +460,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case 3:
                 damageProtectionLevel += numberOfLevels;
-                damageProtection = numberOfLevels;
+                damageProtection = damageProtectionLevel;
                 break;
             case 4:
                 movementSpeedLevel += numberOfLevels;
@@ -383,7 +471,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case 5:
                 incomeMultiplierLevel += numberOfLevels;
-                incomeMultiplier = incomeMultiplierLevel;
+                incomeMultiplier = 1 + incomeMultiplierLevel * 0.1f;
                 break;
         }
     }
