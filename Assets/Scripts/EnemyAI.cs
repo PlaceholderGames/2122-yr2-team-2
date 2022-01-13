@@ -148,12 +148,11 @@ public class EnemyAI : MonoBehaviour
     }
     private void DestroyEnemy()
     {
+
+        GameObject.Find(gameObject.name + ("spawn point")).GetComponent<RespawnEnemy>().Death = true;
+
         Destroy(gameObject);
 
-        if(OnEnemyKilled != null)
-        {
-            OnEnemyKilled();
-        }
     }
 
     private void OnDrawGizmosSelected()
