@@ -13,7 +13,6 @@ public class EnemyAI : MonoBehaviour
     public float health;
 
     //Variables for spawning the enemy multiple times (For reference go to EnemyManager script)
-
     public delegate void EnemyKilled(int reward);
     public static event EnemyKilled OnEnemyKilled;
 
@@ -181,10 +180,6 @@ public class EnemyAI : MonoBehaviour
 
         Destroy(gameObject);
 
-        if (OnEnemyKilled != null)
-        {
-            OnEnemyKilled();
-        }
     }
 
     private void OnDrawGizmosSelected()
