@@ -13,7 +13,7 @@ public class EnemyAI : MonoBehaviour
     public float health;
 
     //Variables for spawning the enemy multiple times (For reference go to EnemyManager script)
-    public delegate void EnemyKilled(int reward);
+    public delegate void EnemyKilled(float reward);
     public static event EnemyKilled OnEnemyKilled;
 
     //Patroling
@@ -157,6 +157,7 @@ public class EnemyAI : MonoBehaviour
         if (isHordeDemon)
         {
             GameObject.Find("HordeRespawnPoint(" + spawnPoint + ")").GetComponent<RespawnEnemy>().Death = true;
+            //When this event fires the player is rewarded with money
             if (OnEnemyKilled != null)
             {
                 OnEnemyKilled(15);
@@ -165,6 +166,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             GameObject.Find("RespawnPoint(" + spawnPoint + ")").GetComponent<RespawnEnemy>().Death = true;
+            //When this event fires the player is rewarded with money
             if (OnEnemyKilled != null)
             {
                 OnEnemyKilled(30);
@@ -172,11 +174,8 @@ public class EnemyAI : MonoBehaviour
         }
         
 
-        //When this event fires the player is rewarded with money
-        if (OnEnemyKilled != null)
-        {
-            OnEnemyKilled(30);
-        }
+        
+        
 
         Destroy(gameObject);
 
