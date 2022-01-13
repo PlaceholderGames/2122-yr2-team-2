@@ -282,10 +282,10 @@ public class MenuController : MonoBehaviour
             totalSpent += levelChangeArray[i] * statUpgradeCosts[i];
         }
 
+        print("Attempting to spend: " + totalSpent);
         if ((playerMoney - totalSpent) >= 0)
         {
 
-            print("0: " + levelChangeArray[0] + "  1: " + levelChangeArray[1] + "  2: " + levelChangeArray[2] + "  3: " + levelChangeArray[3] + "  4: " + levelChangeArray[4] + "  5: " + levelChangeArray[5]);
             if (levelChangeArray[0] > 0)
             {
                 print("Changing health");
@@ -352,6 +352,11 @@ public class MenuController : MonoBehaviour
             totalSpent = 0;
             //updateUpgradeMenu();
         }
+        else
+        {
+            print("Not enough money!");
+            totalSpent = 0;
+        }
         
     }
 
@@ -406,10 +411,10 @@ public class MenuController : MonoBehaviour
             startUp();
             
         }
-        if (playerControllerScript)
-        {
-            print("Player Controller Script Found!");
-        }
+        //if (playerControllerScript)
+        //{
+        //    print("Player Controller Script Found!");
+        //}
         //print("Current: " + playerControllerScript.getMaxHealth());
 
         //player = GameObject.Find("Player");
