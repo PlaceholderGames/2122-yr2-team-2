@@ -1250,6 +1250,7 @@ MonoBehaviour:
   damageDone: 30
   setWaitTime: 5
   lockPos: 0
+  spawnPoint: 1
 --- !u!195 &853324092003201654
 NavMeshAgent:
   m_ObjectHideFlags: 0
