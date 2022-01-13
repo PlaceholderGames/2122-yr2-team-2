@@ -124,6 +124,65 @@ public class PlayerController : MonoBehaviour
         money = 1000.0f;
 
         healthRegeneration = 1 + healthRegenerationLevel;
+        incomeMultiplier = 1.0f;
+
+        //====================Health====================
+        //Defaults are:
+        //health = 100
+        //health level = 0
+        //max health = 100
+        //healthRegenerationLevel = 0
+        //healthRegeneration = 1
+        defaultHealth = 100;
+        healthLevel = 0;
+        maxHealth = 100;
+        health = 100;
+        healthRegenerationLevel = 0;
+        healthRegeneration = 1;
+
+        healthRegenerating = false;
+        healthRegenerationTimer = 1.0f;
+
+        //====================Speed====================
+        //The current walk speed, and the current max walk speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
+        defaultMovementSpeed = 7.0f;
+        movementSpeed = 7.0f;//default 7.0f
+        currentMovementSpeed = 7.0f;
+        movementSpeedLevel = 0;
+
+        //The current sprint speed, and the current max sprint speed (so if any status effects modify sprint speed it can easily be set back), this can be changed with upgrades
+        //Eventually I want this to be changed to a sprintMovementSpeedBoost so that sprinting adds to the movement speed instead of setting it to a hard number
+        //This is currently an issue because when shift is held it would constantly add the speed until your're doing the speed of light!!
+        defaultSprintMovementSpeed = 10.0f;
+        sprintMovementSpeed = 10.0f;//default 10.0f
+        currentSprintMovementSpeed = 10.0f;
+
+
+        //====================Damage====================
+        //This is handled in the "weaponHitDetection.cs" file
+        damageLevel = 0;
+
+        //====================Damage Protection====================
+        //This percentage is used to reduce the amount of damage inflicted on the player
+        //float defaultDamageProtectionPercentage = 0.0f;
+        //[SerializeField] float damageProtectionPercentage = 0.0f;
+
+        defaultDamageProtection = 0;
+        damageProtectionLevel = 0;
+        damageProtection = 0;
+
+        //====================Money====================
+        //Default money is 0
+        money = 1000.0f;
+        defaultIncomeMultiplier = 1.0f;
+        incomeMultiplierLevel = 0;
+        incomeMultiplier = 1.0f;
+        //Income multiplier will go here
+        //The framework for this one isn't done yet, so won't be implemented quite yet
+
+
+        //When an enemy dies, the player is rewarded
+        EnemyAI.OnEnemyKilled += rewardPlayer;
 
         if (controller == null)
         {
@@ -278,13 +337,13 @@ public class PlayerController : MonoBehaviour
 
         if (controller == null)
         {
-            print("Looking for Controller!");
+            //print("Looking for Controller!");
             controller = GameObject.Find("Player").GetComponent<CharacterController>();//The controller to be used for character movement
         }
         else
-        {
-            print("Controller found!?");
-        }
+        //{
+        //    print("Controller found!?");
+        //}
 
         if (HudObject == null)
         {
@@ -329,7 +388,8 @@ public class PlayerController : MonoBehaviour
                 {
                     health = maxHealth;
                 }
-                print("Health Regen" + healthRegeneration);
+
+                //print("Health Regen" + healthRegeneration);
                 healthBarText.text = health + "/" + maxHealth;
                 HealthBar.value = health;
 
@@ -405,7 +465,6 @@ public class PlayerController : MonoBehaviour
 
         currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
 
-        print(controller);
         if (controller.isGrounded)
             velocityY = 0;
 
@@ -487,10 +546,12 @@ public class PlayerController : MonoBehaviour
             case 0:
                 healthLevel += numberOfLevels;
                 print("Health levels: " + healthLevel);
-                maxHealth += healthLevel * 10;
+                maxHealth = 100 + (healthLevel * 10);
                 print("Max Health: " + maxHealth);
                 HealthBar.maxValue = maxHealth;
                 healthBarText.text = health + "/" + maxHealth;
+                print(healthBarText.text);
+                StartCoroutine(enableHealthRegen());
                 break;
             case 1:
                 healthRegenerationLevel += numberOfLevels;
@@ -601,5 +662,13 @@ public class PlayerController : MonoBehaviour
     public float getIncomeMultiplier()
     {
         return incomeMultiplier;
+    }
+
+
+    public void rewardPlayer(float earned)
+    {
+        print("Player being rewarded");
+        money += (earned * incomeMultiplier);
+        //money = 1010.0f;
     }
 }

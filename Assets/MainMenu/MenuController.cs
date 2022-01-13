@@ -36,15 +36,15 @@ public class MenuController : MonoBehaviour
     TMP_Text currentHealthText = null;
     TMP_Text HealthLevelText = null;
     int currentHealthLevel = 0;
-    
+
     TMP_Text currentHealthRegenerationText = null;
     TMP_Text HealthRegenerationLevelText = null;
     int currentHealthRegenerationLevel = 0;
-    
+
     TMP_Text currentDamageText = null;
     TMP_Text DamageLevelText = null;
     int currentDamageLevel = 0;
-    
+
     TMP_Text currentDamageProtectionText = null;
     TMP_Text DamageProtectionLevelText = null;
     int currentDamageProtectionLevel = 0;
@@ -161,7 +161,7 @@ public class MenuController : MonoBehaviour
 
     public void ExitGameDialogYes()
     {
-        
+
     }
 
     public void ExitButton()
@@ -169,7 +169,7 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
-    
+
 
 
     public void BrightnessSliderMoved()
@@ -282,10 +282,10 @@ public class MenuController : MonoBehaviour
             totalSpent += levelChangeArray[i] * statUpgradeCosts[i];
         }
 
+        print("Attempting to spend: " + totalSpent);
         if ((playerMoney - totalSpent) >= 0)
         {
 
-            print("0: " + levelChangeArray[0] + "  1: " + levelChangeArray[1] + "  2: " + levelChangeArray[2] + "  3: " + levelChangeArray[3] + "  4: " + levelChangeArray[4] + "  5: " + levelChangeArray[5]);
             if (levelChangeArray[0] > 0)
             {
                 print("Changing health");
@@ -346,13 +346,18 @@ public class MenuController : MonoBehaviour
 
             print("0: " + levelChangeArray[0] + "  1: " + levelChangeArray[1] + "  2: " + levelChangeArray[2] + "  3: " + levelChangeArray[3] + "  4: " + levelChangeArray[4] + "  5: " + levelChangeArray[5]);
             playerControllerScript.spendPlayerMoney(totalSpent);
-            
+
             moneyText.text = "| Money: " + playerMoney;
 
             totalSpent = 0;
-            //updateUpgradeMenu();
+            updateUpgradeMenu();
         }
-        
+        else
+        {
+            print("Not enough money!");
+            totalSpent = 0;
+        }
+
     }
 
 
@@ -404,12 +409,12 @@ public class MenuController : MonoBehaviour
         {
             playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
             startUp();
-            
+
         }
-        if (playerControllerScript)
-        {
-            print("Player Controller Script Found!");
-        }
+        //if (playerControllerScript)
+        //{
+        //    print("Player Controller Script Found!");
+        //}
         //print("Current: " + playerControllerScript.getMaxHealth());
 
         //player = GameObject.Find("Player");
@@ -434,7 +439,7 @@ public class MenuController : MonoBehaviour
             //print("Menu opened");
             PauseMenu.enabled = true;
 
-            
+
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && PauseMenu.enabled == true)
         {
