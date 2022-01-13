@@ -69,14 +69,4 @@ public class weaponHitDetection : MonoBehaviour
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
-
-    public int getDamage()
-    {
-        return attackDamage;
-    }
-
-    public void setDamage(int level)
-    {
-        attackDamage = 40 + level;
-    }
 }
