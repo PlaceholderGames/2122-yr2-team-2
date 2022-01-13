@@ -13,7 +13,8 @@ public class EnemyAI : MonoBehaviour
     public float health;
 
     //Variables for spawning the enemy multiple times (For reference go to EnemyManager script)
-    public delegate void EnemyKilled();
+
+    public delegate void EnemyKilled(int reward);
     public static event EnemyKilled OnEnemyKilled;
 
     //Patroling
@@ -29,6 +30,9 @@ public class EnemyAI : MonoBehaviour
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+
+
+
 
     //Damage the enemy does
     [SerializeField] public int damageDone = 20;
@@ -47,6 +51,9 @@ public class EnemyAI : MonoBehaviour
 
     //For animations
     Animator anim;
+
+    [SerializeField] int spawnPoint = 1;
+    [SerializeField] bool isHordeDemon = false;
 
     private void Awake()
     {
@@ -148,6 +155,30 @@ public class EnemyAI : MonoBehaviour
     }
     private void DestroyEnemy()
     {
+        if (isHordeDemon)
+        {
+            GameObject.Find("HordeRespawnPoint(" + spawnPoint + ")").GetComponent<RespawnEnemy>().Death = true;
+            if (OnEnemyKilled != null)
+            {
+                OnEnemyKilled(15);
+            }
+        }
+        else
+        {
+            GameObject.Find("RespawnPoint(" + spawnPoint + ")").GetComponent<RespawnEnemy>().Death = true;
+            if (OnEnemyKilled != null)
+            {
+                OnEnemyKilled(30);
+            }
+        }
+        
+
+        //When this event fires the player is rewarded with money
+        if (OnEnemyKilled != null)
+        {
+            OnEnemyKilled(30);
+        }
+
         Destroy(gameObject);
 
         if (OnEnemyKilled != null)
@@ -184,5 +215,13 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void setSpawnPoint(int newSpawnPoint)
+    {
+        spawnPoint = newSpawnPoint;
+    }
 
+    public void setDemonType(bool newType)
+    {
+        isHordeDemon = newType;
+    }
 }
