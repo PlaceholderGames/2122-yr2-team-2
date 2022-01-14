@@ -54,6 +54,9 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] int spawnPoint = 1;
     [SerializeField] bool isHordeDemon = false;
 
+
+
+
     private void Awake()
     {
 
@@ -160,7 +163,7 @@ public class EnemyAI : MonoBehaviour
             //When this event fires the player is rewarded with money
             if (OnEnemyKilled != null)
             {
-                OnEnemyKilled(15);
+                OnEnemyKilled(30);
             }
         }
         else
@@ -169,7 +172,7 @@ public class EnemyAI : MonoBehaviour
             //When this event fires the player is rewarded with money
             if (OnEnemyKilled != null)
             {
-                OnEnemyKilled(30);
+                OnEnemyKilled(60);
             }
         }
         

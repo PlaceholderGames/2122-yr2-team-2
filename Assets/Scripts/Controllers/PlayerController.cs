@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
 
     //====================Money====================
     //Default money is 0
-    [SerializeField] float money = 1000.0f;
+    [SerializeField] float money = 0.0f;
     float defaultIncomeMultiplier = 1.0f;
     [SerializeField] int incomeMultiplierLevel = 0;
     [SerializeField] float incomeMultiplier = 1.0f;
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
         HealthBar = HealthBarObject.GetComponent<Slider>();//The health bar slider within the health bar object.
         healthBarTextObject = GameObject.Find("HealthText");//The text that displays the exact health of the player
         healthBarText = healthBarTextObject.GetComponent<TMP_Text>();//The text that displays the exact health of the player
-        money = 1000.0f;
+        money = 0.0f;
 
         healthRegeneration = 1 + healthRegenerationLevel;
         incomeMultiplier = 1.0f;
@@ -173,7 +173,7 @@ public class PlayerController : MonoBehaviour
 
         //====================Money====================
         //Default money is 0
-        money = 1000.0f;
+        money = 0.0f;
         defaultIncomeMultiplier = 1.0f;
         incomeMultiplierLevel = 0;
         incomeMultiplier = 1.0f;
@@ -494,12 +494,23 @@ public class PlayerController : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);//passes the move vector to the CharacterController
     }
 
+
+    int Totaldamage;
     //Damages the players health
     //The incoming damage is modified by the damage protection variable
     public void takeDamage(int damage)
     {
         healthRegenerating = false;
-        health -= (damage -= damageProtection);
+        Totaldamage = (damage -= damageProtection);
+        if (Totaldamage > 0)
+        {
+            health -= Totaldamage;
+        }
+        else
+        {
+            print("No Damage Done");
+        }
+        
         HealthBar.value = health;
         healthBarText.text = health + "/" + maxHealth;
         if (health <= 0)
@@ -577,7 +588,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case 5:
                 incomeMultiplierLevel += numberOfLevels;
-                incomeMultiplier = 1 + incomeMultiplierLevel * 0.1f;
+                incomeMultiplier = 1 + (incomeMultiplierLevel * 0.2f);
                 break;
         }
     }

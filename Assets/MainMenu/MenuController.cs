@@ -14,7 +14,7 @@ public class MenuController : MonoBehaviour
     int[] levelArray = new int[] { 0, 0, 0, 0, 0, 0 };
     int healthLevel = 0;
     float healthLevelCost = 100;
-    float playerMoney = 1000;
+    float playerMoney = 0;
     bool gameStarted = false;
 
     int[] statUpgradeCosts = new int[] { 100, 1000, 100, 100, 1000, 100 };

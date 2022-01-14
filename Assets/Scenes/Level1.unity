@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.2
     agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
-    ledgeDropHeight: 0
-    maxJumpAcrossDistance: 0
-    minRegionArea: 2
+    agentSlope: 60
+    agentClimb: 0.6
+    ledgeDropHeight: 6
+    maxJumpAcrossDistance: 2
+    minRegionArea: 1
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.06666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: c4606eee7bca30c4cb2476ccc2132f5b, type: 2}
 --- !u!1 &4090170
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,13 +225,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4090170}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 193.7, y: 1.88, z: 169.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1827065678}
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_Father: {fileID: 741756340}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &19487373
 GameObject:
@@ -1043,7 +1043,7 @@ MonoBehaviour:
   Cooldown: 15
   Enemy: {fileID: 2457589383012514860, guid: 6d4a1fc735f02e640b8c8e9f26c59440, type: 3}
   EnemyName: Demon
-  spawnPoint: 1
+  spawnPoint: 4
 --- !u!1 &122295349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,7 +1324,7 @@ MonoBehaviour:
   Cooldown: 15
   Enemy: {fileID: 2457589383012514860, guid: 6d4a1fc735f02e640b8c8e9f26c59440, type: 3}
   EnemyName: Demon
-  spawnPoint: 2
+  spawnPoint: 6
 --- !u!4 &172194907 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4159231116508106412, guid: 86e37398a91d2b843b52678787f5e3a6, type: 3}
@@ -2045,7 +2045,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 741756340}
     m_Modifications:
     - target: {fileID: -8954950755603111518, guid: 0679c353b4484e94fbd3f7d37eb44232, type: 3}
       propertyPath: m_Convex
@@ -2053,7 +2053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0679c353b4484e94fbd3f7d37eb44232, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0679c353b4484e94fbd3f7d37eb44232, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2073,15 +2073,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0679c353b4484e94fbd3f7d37eb44232, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0679c353b4484e94fbd3f7d37eb44232, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0679c353b4484e94fbd3f7d37eb44232, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0679c353b4484e94fbd3f7d37eb44232, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2896,7 +2896,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 74.113, y: 82.247, z: 58.265}
 --- !u!1 &368387639
 GameObject:
@@ -3219,7 +3219,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1145936104}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.72213876
+  m_Size: 0.7221388
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3650,7 +3650,7 @@ RectTransform:
   - {fileID: 291119902}
   - {fileID: 1786923927}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3748,7 +3748,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: -48.811, y: -193.511, z: -12.558}
 --- !u!1 &445801759
 GameObject:
@@ -5083,7 +5083,7 @@ Transform:
   - {fileID: 963194228}
   - {fileID: 58501028}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!95 &638865183
 Animator:
@@ -5974,9 +5974,18 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 310690187}
+  - {fileID: 1109016643}
+  - {fileID: 874065057}
+  - {fileID: 1055981853}
+  - {fileID: 1609888410}
+  - {fileID: 884762657}
+  - {fileID: 972050656}
+  - {fileID: 1933339009}
+  - {fileID: 4090175}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &758636239
 GameObject:
@@ -6594,7 +6603,7 @@ GameObject:
   - component: {fileID: 834152137}
   - component: {fileID: 834152138}
   m_Layer: 0
-  m_Name: RespawnPoint(10)
+  m_Name: RespawnPoint(7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6631,7 +6640,7 @@ MonoBehaviour:
   Cooldown: 15
   Enemy: {fileID: 2457589383012514860, guid: 6d4a1fc735f02e640b8c8e9f26c59440, type: 3}
   EnemyName: Demon
-  spawnPoint: 2
+  spawnPoint: 7
 --- !u!1 &835167635
 GameObject:
   m_ObjectHideFlags: 0
@@ -7152,7 +7161,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874065056}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 494.0816, y: 43.646057, z: 554.0567}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7162,8 +7171,8 @@ Transform:
   - {fileID: 1169014580}
   - {fileID: 697389933}
   - {fileID: 696199211}
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_Father: {fileID: 741756340}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &884762653
 GameObject:
@@ -7254,13 +7263,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 884762653}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 192.76, y: 1.88, z: 765.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1091756746}
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 741756340}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &884762658
 MonoBehaviour:
@@ -7843,13 +7852,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 972050651}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 814.8, y: 1.88, z: 835.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 938006760}
-  m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_Father: {fileID: 741756340}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &978168573
 GameObject:
@@ -8280,7 +8289,7 @@ Transform:
   - {fileID: 1601677846}
   - {fileID: 1848398553}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1054646871
 GameObject:
@@ -8560,8 +8569,8 @@ Transform:
   - {fileID: 731596425}
   - {fileID: 1870186233}
   - {fileID: 978652630}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 741756340}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 101.525, z: 0}
 --- !u!1 &1061005987
 GameObject:
@@ -8839,7 +8848,7 @@ RectTransform:
   - {fileID: 2137149142}
   - {fileID: 382403081}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8939,7 +8948,7 @@ RectTransform:
   m_Children:
   - {fileID: 1731386265}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9370,6 +9379,11 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!4 &1109016643 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3887337172794729781, guid: 8e2d9b44aba66d640bbba0345cd83770, type: 3}
+  m_PrefabInstance: {fileID: 1698384812}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1120819113
 GameObject:
   m_ObjectHideFlags: 0
@@ -9721,7 +9735,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1145936103
 GameObject:
@@ -11131,7 +11145,7 @@ GameObject:
   - component: {fileID: 1319080437}
   - component: {fileID: 1319080438}
   m_Layer: 0
-  m_Name: RespawnPoint(12)
+  m_Name: RespawnPoint(9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11168,7 +11182,7 @@ MonoBehaviour:
   Cooldown: 15
   Enemy: {fileID: 2457589383012514860, guid: 6d4a1fc735f02e640b8c8e9f26c59440, type: 3}
   EnemyName: Demon
-  spawnPoint: 2
+  spawnPoint: 9
 --- !u!1 &1326832735
 GameObject:
   m_ObjectHideFlags: 0
@@ -11642,7 +11656,7 @@ GameObject:
   - component: {fileID: 1368634393}
   - component: {fileID: 1368634394}
   m_Layer: 0
-  m_Name: RespawnPoint(11)
+  m_Name: RespawnPoint(8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11679,7 +11693,7 @@ MonoBehaviour:
   Cooldown: 15
   Enemy: {fileID: 2457589383012514860, guid: 6d4a1fc735f02e640b8c8e9f26c59440, type: 3}
   EnemyName: Demon
-  spawnPoint: 2
+  spawnPoint: 8
 --- !u!1 &1375060645
 GameObject:
   m_ObjectHideFlags: 0
@@ -12722,7 +12736,7 @@ Transform:
   - {fileID: 1947948054}
   - {fileID: 1550006061}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1543746836
 GameObject:
@@ -13354,7 +13368,7 @@ Transform:
   - {fileID: 1571592579}
   - {fileID: 1640521662}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1596106904
 GameObject:
@@ -13837,8 +13851,8 @@ Transform:
   - {fileID: 853495057}
   - {fileID: 937926253}
   - {fileID: 104837321}
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 741756340}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 172.331, z: 0}
 --- !u!1 &1614823002
 GameObject:
@@ -14079,7 +14093,7 @@ MonoBehaviour:
   Cooldown: 15
   Enemy: {fileID: 2457589383012514860, guid: 6d4a1fc735f02e640b8c8e9f26c59440, type: 3}
   EnemyName: Demon
-  spawnPoint: 2
+  spawnPoint: 5
 --- !u!1 &1619558478
 GameObject:
   m_ObjectHideFlags: 0
@@ -14378,7 +14392,7 @@ Transform:
   - {fileID: 978168574}
   - {fileID: 2059442107}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1627017331
 GameObject:
@@ -15249,11 +15263,11 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 741756340}
     m_Modifications:
     - target: {fileID: 3887337172794729781, guid: 8e2d9b44aba66d640bbba0345cd83770, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3887337172794729781, guid: 8e2d9b44aba66d640bbba0345cd83770, type: 3}
       propertyPath: m_LocalScale.x
@@ -15285,15 +15299,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3887337172794729781, guid: 8e2d9b44aba66d640bbba0345cd83770, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3887337172794729781, guid: 8e2d9b44aba66d640bbba0345cd83770, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3887337172794729781, guid: 8e2d9b44aba66d640bbba0345cd83770, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3887337172794729781, guid: 8e2d9b44aba66d640bbba0345cd83770, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -18036,13 +18050,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933339004}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 780.9, y: 1.88, z: 153.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1126712960}
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_Father: {fileID: 741756340}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1938217808
 GameObject:
@@ -18102,7 +18116,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1938875710
 GameObject:
